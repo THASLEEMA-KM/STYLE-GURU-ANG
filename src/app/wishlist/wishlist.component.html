@@ -1,0 +1,43 @@
+<app-header></app-header>
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+       <div *ngIf="allProducts.length>0">
+            <h2 class="mt-5 text-center text-warning fw-bolder"><u>Your Wishlist</u></h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mt-5">
+                <div class="col mb-5" *ngFor="let product of allProducts">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img routerLink="/id/view" style="cursor: pointer;" class="card-img-top p-2" [src]="product.image" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">{{product.title.slice(0,20)}}...</h5>
+                                <!-- Product price-->
+                                ${{product.price}}
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="d-flex justify-content-evenly">
+                                <button (click)="removeItem(product._id)" class="btn">
+                                    <i class="fa-solid fa-heart-circle-xmark text-danger"></i>
+                                </button>
+                                <button (click)="addToCart(product)" class="btn">
+                                    <i class="fa-solid fa-cart-plus text-success"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+       <div *ngIf="allProducts.length==0">
+            <div style="height: 80vh;" class="d-flex justify-content-center">
+                <img src="https://www.bing.com/th/id/OGC.4b6f12d30db85b24cd2effb75122e497?pid=1.7&rurl=https%3a%2f%2fwww.gospeedy.co.in%2fimages%2fempty.gif&ehk=1p6l2B3WRl3FZ53CMbY%2brun7xE42O5YGqyp%2bTiVGMn4%3d" alt="">
+                <h1>Your Wishlist is Empty</h1>
+            </div>
+       </div>
+    </div>
+</section>

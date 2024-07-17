@@ -1,0 +1,85 @@
+<app-header></app-header>
+<section class="container-fluid">
+    <div *ngIf="allProducts.length>0" class="cart mt-5 pt-5">
+        <h1 class="text-center">Cart Summary</h1>
+        <div class="row mt-5">
+            <div class="col-lg-8">
+                <table class="table border-1 shadow rounded ">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Image</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th><i class="fa-solid fa-ellipsis"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of allProducts;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{product.title}}</td>
+                            <td><img width="50px" height="50px" [src]="product.image" alt=""></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button (click)="decrementQuantity(product._id)" class="btn">-</button>
+                                    <input readonly style="width: 50px;" [value]="product.quantity" type="text" class="form-control border rounded fw-bolder me-1 ms-1">
+                                    <button (click)="incrementQuantity(product._id)" class="btn">+</button>
+                                </div>
+                            </td>
+                            <td>${{product.price}}</td>
+                            <td><button (click)="removeItem(product._id)" class="btn">
+                                <i class="fa-solid fa-trash text-danger"></i>
+                            </button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="float-end">
+                    <button (click)="emptyCart()" class="btn btn-danger me-2">
+                        EMPTY CART
+                    </button>
+                    <button class="btn btn-info" routerLink="">SHOP MORE</button>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="border rounded p-3">
+                    <h3>Cart Total : <span class="text-danger">$ {{cartTotalPrice}}</span></h3>
+                    <!-- coupons -->
+                     <h6>Click here to view <span (click)="getCoupon()" class="btn btn-link text-primary">
+                        <i class="fa-solid fa-tag"></i>
+                        Offers</span></h6>
+                     <div *ngIf="couponStatus"  class="d-flex justify-content-evenly mt-3">
+                        <!-- no off -->
+                         <ng-container *ngIf="cartTotalPrice<50">
+                            <p>Sorry! No more offers for this purchase</p>
+                            <button (click)="backToOffers()" class="btn btn-link text-danger">Back to Offers</button>
+                         </ng-container>
+                        <!-- 5% -->
+                         <ng-container  *ngIf="cartTotalPrice>=50 && cartTotalPrice<250 && !couponClickedStatus">
+                            <img (click)="coupon5Percent()" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjDWpTO4o5iYSM33ju8lwRWFNYdCCS--9apQ&s" width="150px" height="150px" alt="">
+                         </ng-container>
+                         <!-- 25% -->
+                         <ng-container *ngIf="cartTotalPrice>=250 && cartTotalPrice<500 && !couponClickedStatus">
+                            <img (click)="coupon20Percent()" src="https://d2kh7o38xye1vj.cloudfront.net/wp-content/uploads/2024/01/Percentage-Coupons.webp" width="150px" height="150px" alt="">
+                         </ng-container>
+                          <!-- 50% -->
+                          <ng-container *ngIf="cartTotalPrice>=500 && !couponClickedStatus">
+                            <img (click)="coupon50Percent()" src="https://i0.wp.com/shopnix.io/blog/wp-content/uploads/2023/01/discountcoupon.png?fit=1108%2C516&ssl=1" width="150px" height="150px" alt="">
+                         </ng-container>
+
+                     </div>
+                    <hr>
+                    <div class="d-grid">
+                        <button (click)="checkOut()" class="btn btn-warning">Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="allProducts.length==0" class="mt-5 pt-5">
+        <div style="height: 80vh;display: grid;"  class="d-flex justify-content-center">
+            <img src="https://cdn.dribbble.com/users/2046015/screenshots/4591856/first_white_girl_drbl.gif" alt="">
+            <h1 class="text-center mt-5 pt-5">Your Cart is Empty</h1>
+        </div>
+   </div>
+</section>
